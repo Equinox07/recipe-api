@@ -56,3 +56,21 @@ class PrivateTagApiTests(TestCase):
         self.assertLessEqual(len(res.data), 1)
         self.assertEqual(res.data[0]['name'], tag.name)
         # self.assertIn('Comfort Food', str(res.data))
+
+    def test_create_tage_successfull(self):
+        """Test it creates tags successfully"""
+        payload = {'name': 'Test tag'}
+        self.client.post(TAGS_URL, payload)
+
+        exists = Tag.objects.filter(
+            user=self.user,
+            name=payload['name']
+        ).exists()
+        self.assertTrue(exists)
+
+    def test_create_tag_invalid(self):
+        """Test creating a tag with invalid payload"""
+        payload = {'name': ''}
+        res = self.client.post(TAGS_URL, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
