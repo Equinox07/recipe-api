@@ -33,6 +33,6 @@ services:
       - POSTGRES_DB=app
     # volumes:
     #   - ./db:/var/lib/postgresql/data
-    # ports:
-    #   - "5432:5432"
+    ports:
+      - "5432:5432"
     # restart: always
